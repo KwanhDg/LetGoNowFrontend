@@ -1,7 +1,8 @@
-import { Routes } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 
-export const routes: Routes = [
+const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'cruises', component: HomeComponent }, // Thay bằng CruisesComponent sau
   { path: 'flights', component: HomeComponent },
@@ -14,3 +15,9 @@ export const routes: Routes = [
   { path: 'about-phuquoc', component: HomeComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' } // Route mặc định
 ];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }

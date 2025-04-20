@@ -1,0 +1,636 @@
+/* Reset mặc định */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .container {
+    width: 80%;
+    margin: 0 auto;
+    max-width: 1200px;
+  }
+  
+  /* 
+  ---------------------------------------------
+  Header Style
+  --------------------------------------------- 
+  */
+  #header {
+    font-family: 'Roboto', sans-serif !important;
+    height: 100px;
+    background-color: #ffffff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+  }
+  
+  #nav {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    align-items: stretch;
+  }
+  
+  #nav li {
+    height: 100px;
+    position: relative;
+    float: left;
+    display: flex;
+  }
+  
+  #nav li a:hover {
+    border-bottom: 3px solid #22b3c1;
+    color: #22b3c1;
+  }
+  
+  #nav li:first-child a:hover {
+    border: none !important;
+  }
+  
+  #nav li a {
+    text-decoration: none;
+    height: 100%;
+    padding: 0 24px;
+    display: block;
+    font-weight: bold;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    color: black;
+  }
+  
+  /* 
+  ---------------------------------------------
+  Banner Style
+  --------------------------------------------- 
+  */
+  #section-1 {
+    margin-top: 0px;
+    height: 100vh;
+    min-height: 700px;
+    color: #fff;
+    background-color: #222;
+    position: relative;
+  }
+  
+  #section-1 .content-slider {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  #section-1 .content-slider input {
+    display: none;
+  }
+  
+  #section-1 .content-slider .slider {
+    position: relative;
+    width: inherit;
+    height: inherit;
+    overflow: hidden;
+  }
+  
+  #section-1 .content-slider .slider .banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    z-index: 0;
+    width: inherit;
+    height: inherit;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    transition: all 0.5s ease;
+  }
+  
+  #section-1 .more-info {
+    margin-top: 60px;
+    background-color: #fff;
+    padding: 30px 60px;
+    border-radius: 61px;
+    position: absolute;
+    width: 80%;
+    left: 10%;
+    bottom: 130px;
+    display: flex;
+  }
+  
+  #section-1 .more-info .info {
+    display: flex;
+    align-items: center;
+    padding-right: 120px;
+  }
+  
+  #section-1 .more-info i {
+    color: #22b3c1;
+    font-size: 24px;
+    width: 60px;
+    height: 60px;
+    display: inline-block;
+    text-align: center;
+    line-height: 58px;
+    border: 1px solid #22b3c1;
+    border-radius: 50%;
+    float: left;
+    margin-right: 20px;
+  }
+  
+  #section-1 .more-info p {
+    font-size: 20px;
+    color: #22b3c1;
+    font-weight: 700;
+    line-height: 28px;
+  }
+  
+  #section-1 .more-info p span {
+    font-size: 15px;
+    color: #afafaf;
+    font-weight: 400;
+  }
+  
+  #section-1 .main-button {
+    margin-top: 8px;
+    text-align: right;
+  }
+  
+  #section-1 .main-button a:hover {
+    background-color: #22b3c1;
+    border-color: #22b3c1;
+    color: #fff;
+    opacity: 0.8;
+  }
+  
+  #section-1 .content-slider .slider .banner .banner-inner-wrapper {
+    height: 100%;
+    box-sizing: border-box;
+  }
+  
+  #section-1 .content-slider .slider .banner .banner-inner-wrapper .main-caption {
+    position: absolute;
+    width: 100%;
+    top: 40%;
+    transform: translateY(-50%);
+  }
+  
+  #section-1 .content-slider .slider .banner .banner-inner-wrapper h2 {
+    font-weight: 500;
+    font-size: 20px;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+  
+  #section-1 .content-slider .slider .banner .banner-inner-wrapper h1 {
+    font-size: 50px;
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 30px;
+  }
+  
+  #section-1 .content-slider .slider #top-banner-1 {
+    background: url('/assets/images/Halong.jpg') no-repeat center center;
+    background-size: cover;
+  }
+  
+  #section-1 .content-slider .slider #top-banner-2 {
+    background: url('/assets/images/Nhatrang.jpg') no-repeat center center;
+    background-size: cover;
+  }
+  
+  #section-1 .content-slider .slider #top-banner-3 {
+    background: url('/assets/images/Dalat.jpg') no-repeat center center;
+    background-size: cover;
+  }
+  
+  #section-1 .content-slider .slider #top-banner-4 {
+    background: url('/assets/images/Phuquoc.jpg') no-repeat center center;
+    background-size: cover;
+  }
+  
+  #section-1 .content-slider nav {
+    position: absolute;
+    bottom: 30px;
+    width: 100%;
+    z-index: 10;
+    text-align: center;
+  }
+  
+  #section-1 .content-slider nav .controls {
+    display: block;
+    width: 70%;
+    margin: 0 auto;
+    font-family: Montserrat, sans-serif;
+    color: #fff;
+  }
+  
+  #section-1 .content-slider nav .controls label {
+    position: relative;
+    display: inline-block;
+    width: 19.5%;
+    height: 3.1em;
+    overflow: hidden;
+    margin: 0 1em;
+    padding-top: 1em;
+    text-align: left;
+    text-transform: uppercase;
+    font-family: Montserrat, sans-serif;
+    font-size: 1em;
+    color: #f6eac5;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  
+  #section-1 .content-slider nav .controls label .progressbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background: #f6eac5;
+    z-index: 100;
+  }
+  
+  #section-1 .content-slider nav .controls label .progressbar .progressbar-fill {
+    position: inherit;
+    width: inherit;
+    height: inherit;
+    margin-left: -100%;
+    background: #22b3c1;
+  }
+  
+  #section-1 .content-slider nav .controls label span.text {
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;
+    display: inline-block;
+    width: 100%;
+  }
+  
+  #section-1 .content-slider nav .controls label:hover {
+    color: #22b3c1;
+  }
+  
+  #section-1 .content-slider #banner1:checked ~ .slider #top-banner-1,
+  #section-1 .content-slider #banner2:checked ~ .slider #top-banner-2,
+  #section-1 .content-slider #banner3:checked ~ .slider #top-banner-3,
+  #section-1 .content-slider #banner4:checked ~ .slider #top-banner-4 {
+    opacity: 1;
+    z-index: 1;
+  }
+  
+  #section-1 .content-slider #banner1:checked ~ nav label:nth-of-type(1),
+  #section-1 .content-slider #banner2:checked ~ nav label:nth-of-type(2),
+  #section-1 .content-slider #banner3:checked ~ nav label:nth-of-type(3),
+  #section-1 .content-slider #banner4:checked ~ nav label:nth-of-type(4) {
+    cursor: default;
+    color: #fff;
+    transition: all 0.5s;
+  }
+  
+  #section-1 .content-slider #banner1:checked ~ nav label:nth-of-type(1) .progressbar,
+  #section-1 .content-slider #banner2:checked ~ nav label:nth-of-type(2) .progressbar,
+  #section-1 .content-slider #banner3:checked ~ nav label:nth-of-type(3) .progressbar,
+  #section-1 .content-slider #banner4:checked ~ nav label:nth-of-type(4) .progressbar {
+    background: #fff;
+  }
+  
+  #section-1 .content-slider #banner1:checked ~ nav label:nth-of-type(1) .progressbar-fill,
+  #section-1 .content-slider #banner2:checked ~ nav label:nth-of-type(2) .progressbar-fill,
+  #section-1 .content-slider #banner3:checked ~ nav label:nth-of-type(3) .progressbar-fill,
+  #section-1 .content-slider #banner4:checked ~ nav label:nth-of-type(4) .progressbar-fill {
+    animation: progressBarFill 5s linear;
+  }
+  
+  /* Animations */
+  @keyframes progressBarFill {
+    from {
+      margin-left: -100%;
+    }
+    to {
+      margin-left: 0;
+    }
+  }
+  
+  /* Button Styles */
+  .text-button a {
+    font-size: 14px;
+    color: #22b3c1;
+    font-weight: 500;
+    transition: all .3s;
+  }
+  
+  .text-button a i {
+    margin-left: 5px;
+    transition: all .3s;
+  }
+  
+  .text-button a:hover i {
+    margin-left: 10px;
+  }
+  
+  .border-button a {
+    font-size: 14px;
+    color: #22b3c1;
+    background-color: transparent;
+    border: 1px solid #22b3c1;
+    padding: 12px 30px;
+    display: inline-block;
+    border-radius: 25px;
+    font-weight: 500;
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
+    transition: all .3s;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .border-button a:hover {
+    background-color: #22b3c1;
+    color: #fff;
+  }
+  
+  .main-button a {
+    font-size: 14px;
+    color: #fff;
+    background-color: #22b3c1;
+    border: 1px solid #22b3c1;
+    padding: 12px 30px;
+    display: inline-block;
+    border-radius: 25px;
+    font-weight: 500;
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
+    transition: all .3s;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .main-button a:hover {
+    background-color: #fff;
+    color: #22b3c1;
+    border: 1px solid #fff;
+  }
+  
+  /* Featured Cruises */
+  .featured-cruises {
+    padding: 50px 0;
+  }
+  
+  .featured-cruises h2 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 30px;
+  }
+  
+  .cruise-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  
+  .cruise-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: center;
+  }
+  
+  .cruise-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+  
+  .cruise-card h3 {
+    margin: 15px 0;
+    font-size: 18px;
+  }
+  
+  .cruise-card p {
+    margin-bottom: 15px;
+    color: #666;
+  }
+  
+  .view-more {
+    text-align: center;
+    margin-top: 30px;
+  }
+  
+  .view-more a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+  }
+  
+  .view-more a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Experience Section */
+  .experience {
+    background-color: #e6f0fa;
+    padding: 50px 0;
+  }
+  
+  .experience h2 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 30px;
+  }
+  
+  .experience-content {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+  }
+  
+  .experience-image img {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 10px;
+  }
+  
+  .experience-details h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .experience-details p {
+    margin-bottom: 20px;
+    color: #666;
+  }
+  
+  .experience-highlights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .experience-highlights span {
+    background-color: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  /* Destinations */
+  .destinations {
+    padding: 50px 0;
+  }
+  
+  .destinations h2 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+  
+  .destinations p {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+  }
+  
+  .destination-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  
+  .destination-card {
+    text-align: center;
+  }
+  
+  .destination-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  
+  .destination-card h3 {
+    margin: 15px 0;
+    font-size: 18px;
+  }
+  
+  .destination-card p {
+    color: #666;
+  }
+  
+  /* Partners */
+  .partners {
+    background-color: #f8f9fa;
+    padding: 50px 0;
+  }
+  
+  .partners h2 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 30px;
+  }
+  
+  .partner-list {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+  }
+  
+  .partner-list img {
+    height: 50px;
+  }
+  
+  /* Blog Section */
+  .blog {
+    padding: 50px 0;
+  }
+  
+  .blog h2 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 30px;
+  }
+  
+  .blog-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  
+  .blog-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .blog-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+  
+  .blog-card h3 {
+    margin: 15px;
+    font-size: 18px;
+  }
+  
+  .blog-card p {
+    margin: 0 15px 15px;
+    color: #666;
+  }
+  
+  /* Footer */
+  footer {
+    background-color: #1a2526;
+    color: white;
+    padding: 50px 0;
+  }
+  
+  .footer-content {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+  }
+  
+  .footer-section h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+  
+  .footer-section p {
+    margin-bottom: 10px;
+  }
+  
+  .footer-section ul {
+    list-style: none;
+  }
+  
+  .footer-section ul li {
+    margin-bottom: 10px;
+  }
+  
+  .footer-section ul li a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .footer-section ul li a:hover {
+    text-decoration: underline;
+  }
+  
+  .footer-bottom {
+    text-align: center;
+    margin-top: 30px;
+    border-top: 1px solid #444;
+    padding-top: 20px;
+  }
