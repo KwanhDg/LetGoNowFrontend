@@ -20,6 +20,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   global: {
     headers: {
       'x-application-name': 'letgonow',
+      'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=30',
     },
   },
   db: {
@@ -29,15 +30,5 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     params: {
       eventsPerSecond: 10,
     },
-  },
-  fetch: (url, options) => {
-    return fetch(url, {
-      ...options,
-      next: { revalidate: 60 }, // Cache for 60 seconds
-      headers: {
-        ...options?.headers,
-        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=30',
-      },
-    });
   },
 }); 
