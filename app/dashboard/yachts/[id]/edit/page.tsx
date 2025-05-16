@@ -1,6 +1,7 @@
 import { supabase } from '../../../../../lib/supabase';
 import { notFound } from 'next/navigation';
 import YachtForm from '../../components/YachtForm';
+import { Metadata } from 'next';
 
 async function getYacht(id: string) {
   const { data, error } = await supabase
@@ -16,11 +17,17 @@ async function getYacht(id: string) {
   return data;
 }
 
-export default async function EditYachtPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+type Props = {
+  params: { id: string }
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  return {
+    title: 'Chỉnh sửa du thuyền',
+  }
+}
+
+export default async function EditYachtPage({ params }: Props) {
   const yacht = await getYacht(params.id);
 
   return (
