@@ -2,6 +2,7 @@ import { supabase } from '../../../lib/supabase';
 import { notFound } from 'next/navigation';
 import YachtDetail from './YachtDetail';
 import { Metadata } from 'next';
+import type { Yacht } from './types';
 
 async function getYachtData(id: string) {
   const { data: yacht, error } = await supabase
@@ -21,10 +22,11 @@ async function getYachtData(id: string) {
     .single();
 
   if (error || !yacht) {
+    console.error('Error fetching yacht:', error);
     notFound();
   }
 
-  return yacht;
+  return yacht as Yacht;
 }
 
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {

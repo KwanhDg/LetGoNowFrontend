@@ -24,21 +24,11 @@ export interface Yacht {
   id: number;
   name: string;
   description: string;
-  shortDescription: string;
   price: number;
-  rating: number;
-  reviewCount: number;
-  location: string;
   duration: string;
-  departureTime: string;
+  location: string;
   images: Image[];
   rooms: Room[];
-  highlights: string[];
-  itinerary: {
-    time: string;
-    activity: string;
-  }[];
-  included: string[];
-  notIncluded: string[];
-  reviews: Review[];
+  created_at: string;
+  updated_at: string;
 } 
