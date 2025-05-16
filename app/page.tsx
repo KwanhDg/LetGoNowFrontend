@@ -109,6 +109,12 @@ export default async function Home() {
                 <div className="p-4">
                   <h3 className="text-xl font-semibold mb-1">{yacht.name}</h3>
                   <p className="text-sm text-gray-500 line-clamp-2">{yacht.description}</p>
+                  <div className="mt-2 text-sm text-gray-600">
+                    <p>Số phòng: {yacht.rooms?.length || 0}</p>
+                    {yacht.rooms?.length > 0 && (
+                      <p>Loại phòng: {yacht.rooms.map(room => room.name).join(', ')}</p>
+                    )}
+                  </div>
                   <p className="text-teal-600 font-bold mt-3">
                     {yacht.price.toLocaleString()}đ / khách
                   </p>

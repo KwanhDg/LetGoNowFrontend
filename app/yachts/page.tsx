@@ -200,6 +200,11 @@ export default async function YachtsPage({
                           <p className="text-sm text-gray-600 mt-1">
                             Hạ thủy {yacht.launch_year} - {yacht.ship_type} - {yacht.rooms?.length || 0} phòng
                           </p>
+                          {yacht.rooms?.length > 0 && (
+                            <p className="text-sm text-gray-600 mt-1">
+                              Loại phòng: {yacht.rooms.map(room => room.name).join(', ')}
+                            </p>
+                          )}
                         </div>
                         <Link
                           href={`/yachts/${yacht.id}`}
