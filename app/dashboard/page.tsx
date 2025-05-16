@@ -27,6 +27,7 @@ interface Booking {
   yacht_name?: string;
   yacht_date?: string;
   room_type?: string;
+  note?: string;
 }
 
 interface User {
@@ -251,7 +252,13 @@ export default function Dashboard() {
               <div><b>Số khách:</b> {selectedBooking.guests || '-'}</div>
               <div><b>Tổng tiền:</b> {selectedBooking.total ? selectedBooking.total.toLocaleString() + 'đ' : '-'}</div>
               <div><b>Trạng thái:</b> 
-                <select value={selectedBooking.status} onChange={e => handleChangeStatus(selectedBooking.id, e.target.value)} disabled={updatingStatus} className="ml-2 border rounded px-2 py-1">
+                <select value={selectedBooking.status} onChange={e => {
+                  if (e.target.value !== selectedBooking.status) {
+                    if (confirm('Bạn có chắc chắn muốn đổi trạng thái đơn này?')) {
+                      handleChangeStatus(selectedBooking.id, e.target.value);
+                    }
+                  }
+                }} disabled={updatingStatus} className="ml-2 border rounded px-2 py-1">
                   <option value="confirmed">Đã thanh toán</option>
                   <option value="pending">Chờ thanh toán</option>
                   <option value="cancelled">Đã huỷ</option>
@@ -260,6 +267,12 @@ export default function Dashboard() {
               <div><b>Ngày đặt:</b> {new Date(selectedBooking.booking_date).toLocaleString()}</div>
               {selectedBooking.customer_email && <div><b>Email:</b> {selectedBooking.customer_email}</div>}
               {selectedBooking.customer_phone && <div><b>SĐT:</b> {selectedBooking.customer_phone}</div>}
+              {selectedBooking.room_type && <div><b>Loại phòng:</b> {selectedBooking.room_type}</div>}
+              {selectedBooking.note && <div><b>Ghi chú:</b> {selectedBooking.note}</div>}
+              <div className="flex gap-4 mt-6">
+                <button className="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600" onClick={() => window.print()}><svg className="inline w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 9V2h12v7" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18H4a2 2 0 01-2-2V8a2 2 0 012-2h16a2 2 0 012 2v8a2 2 0 01-2 2h-2" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 14h12v6H6z" /></svg>In hóa đơn</button>
+                <button className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600" onClick={() => window.print()}><svg className="inline w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg>Xuất PDF</button>
+              </div>
             </div>
           </div>
         </div>
