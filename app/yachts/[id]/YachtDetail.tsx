@@ -131,8 +131,8 @@ export default function YachtDetail({ yacht }: { yacht: Yacht }) {
                 key={index}
                 className={`relative w-full ${
                   index === 0
-                    ? 'md:col-span-3 h-[400px] md:h-[600px] rounded-tl-lg'
-                    : 'h-[300px]'
+                    ? 'md:col-span-3 h-[300px] md:h-[400px] rounded-tl-lg'
+                    : 'h-[180px]'
                 } overflow-hidden flex items-center justify-center`}
               >
                 <Image
