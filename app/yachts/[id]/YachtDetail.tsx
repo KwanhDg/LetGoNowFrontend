@@ -348,19 +348,12 @@ export default function YachtDetail({ yacht }: { yacht: Yacht }) {
                   <div className="space-y-6 mb-6">
                     {(yacht.rooms || []).map((room: Room, index: number) => (
                       <div key={index} className="flex items-center justify-between py-6 border-b border-gray-200 last:border-b-0">
-                        <div className="flex items-center gap-4">
-                          <img
-                            src={room.images?.[0]?.url || '/default-room.jpg'}
-                            alt={room.name}
-                            className="w-16 h-16 object-cover rounded"
-                          />
-                          <div>
-                            <h3 className="text-lg font-semibold text-gray-900 mb-2">{room.name}</h3>
-                            <div className="flex items-center gap-2 text-sm text-gray-600">
-                              <span className="whitespace-nowrap">{room.area}m²</span>
-                              <span>•</span>
-                              <span>Tối đa {room.max_guests} khách</span>
-                            </div>
+                        <div>
+                          <h3 className="text-lg font-semibold text-gray-900 mb-2">{room.name}</h3>
+                          <div className="flex items-center gap-2 text-sm text-gray-600">
+                            <span className="whitespace-nowrap">{room.area}m²</span>
+                            <span>•</span>
+                            <span>Tối đa {room.max_guests} khách</span>
                           </div>
                         </div>
                         <div className="flex items-center gap-6">
