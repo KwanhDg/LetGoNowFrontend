@@ -41,4 +41,6 @@ export interface Yacht {
   included: string[];
   notIncluded: string[];
   reviews: Review[];
+  departureTime: string;
+  shortDescription: string;
 } 
