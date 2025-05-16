@@ -31,4 +31,14 @@ export interface Yacht {
   rooms: Room[];
   created_at: string;
   updated_at: string;
+  rating: number;
+  reviewCount: number;
+  highlights: string[];
+  itinerary: {
+    time: string;
+    activity: string;
+  }[];
+  included: string[];
+  notIncluded: string[];
+  reviews: Review[];
 } 
