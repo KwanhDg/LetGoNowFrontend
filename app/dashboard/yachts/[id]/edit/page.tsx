@@ -27,12 +27,8 @@ export async function generateMetadata({
   };
 }
 
-export default async function EditYachtPage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const yacht = await getYacht(params.id);
+export default async function EditYachtPage(props: any) {
+  const yacht = await getYacht(props.params.id);
 
   return (
     <div>
