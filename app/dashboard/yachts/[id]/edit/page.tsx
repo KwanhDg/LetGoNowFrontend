@@ -17,17 +17,21 @@ async function getYacht(id: string) {
   return data;
 }
 
-type Props = {
-  params: { id: string }
-}
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
   return {
     title: 'Chỉnh sửa du thuyền',
-  }
+  };
 }
 
-export default async function EditYachtPage({ params }: Props) {
+export default async function EditYachtPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const yacht = await getYacht(params.id);
 
   return (
