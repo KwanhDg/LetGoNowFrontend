@@ -6,33 +6,37 @@ import type { Yacht } from './types';
 
 async function getYachtData(id: string) {
   try {
-    // First get the yacht data
+    // First get the yacht data with all related data
     const { data: yacht, error: yachtError } = await supabase
       .from('yachts')
-      .select('*')
+      .select(`
+        *,
+        rooms (
+          id,
+          name,
+          area,
+          max_guests,
+          price,
+          images
+        )
+      `)
       .eq('id', id)
       .single();
 
-    if (yachtError || !yacht) {
+    if (yachtError) {
       console.error('Error fetching yacht:', yachtError);
       notFound();
     }
 
-    // Then get the rooms data
-    const { data: rooms, error: roomsError } = await supabase
-      .from('rooms')
-      .select('*')
-      .eq('yacht_id', id);
-
-    if (roomsError) {
-      console.error('Error fetching rooms:', roomsError);
+    if (!yacht) {
+      console.error('No yacht found with id:', id);
       notFound();
     }
 
-    // Combine the data
+    // Transform the data to match our interface
     const yachtWithRooms: Yacht = {
       ...yacht,
-      rooms: rooms || [],
+      rooms: yacht.rooms || [],
       rating: yacht.rating || 0,
       reviewCount: yacht.review_count || 0,
       highlights: yacht.highlights || [],
