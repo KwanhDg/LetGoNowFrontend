@@ -30,4 +30,14 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
       eventsPerSecond: 10,
     },
   },
+  fetch: (url, options) => {
+    return fetch(url, {
+      ...options,
+      next: { revalidate: 60 }, // Cache for 60 seconds
+      headers: {
+        ...options?.headers,
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=30',
+      },
+    });
+  },
 }); 
