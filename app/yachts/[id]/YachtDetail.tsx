@@ -420,42 +420,47 @@ export default function YachtDetail({ yacht }: { yacht: Yacht }) {
 
       {/* Booking Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-50 flex items-center justify-center">
-          <div className="bg-white/95 backdrop-blur-sm rounded-2xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between p-6 border-b border-gray-200">
-              <h2 className="text-2xl font-bold">Đặt du thuyền</h2>
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center">
+          <div className="bg-white/95 shadow-2xl rounded-3xl max-w-3xl w-full mx-4 max-h-[90vh] overflow-y-auto border border-teal-100">
+            <div className="flex items-center justify-between p-8 border-b border-gray-100">
+              <div className="flex items-center gap-3">
+                <svg className="w-8 h-8 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 7l6 6-6 6M21 7l-6 6 6 6" /></svg>
+                <h2 className="text-3xl font-extrabold text-teal-700">Đặt du thuyền</h2>
+              </div>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="text-gray-400 hover:text-gray-500"
+                className="text-gray-400 hover:text-teal-500 transition"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
 
-            <div className="p-6 space-y-6">
-              <div className="space-y-4">
+            <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Thông tin booking */}
+              <div className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                    <svg className="w-5 h-5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                     Ngày nhận phòng
                   </label>
                   <input
                     type="date"
-                    className="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
+                    className="w-full rounded-xl border-2 border-gray-200 shadow-sm focus:border-teal-500 focus:ring-2 focus:ring-teal-200 px-4 py-3 text-lg"
                     value={modalDate}
                     onChange={e => setModalDate(e.target.value)}
                   />
                 </div>
-
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                    <svg className="w-5 h-5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                     Số lượng
                   </label>
                   <div className="relative">
                     <button
                       type="button"
-                      className="w-full rounded-full border-2 border-teal-200 px-4 py-3 text-left font-semibold text-gray-700 flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-teal-300"
+                      className="w-full rounded-xl border-2 border-teal-200 px-4 py-3 text-left font-semibold text-gray-700 flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-teal-300 text-lg"
                       onClick={() => setShowQuantityDropdown(v => !v)}
                     >
                       {modalAdults} Người lớn - {modalChildren} Trẻ em
@@ -517,7 +522,7 @@ export default function YachtDetail({ yacht }: { yacht: Yacht }) {
                         </div>
                         <button
                           type="button"
-                          className="w-full mt-2 py-2 rounded-full bg-[#7ee3e0] text-gray-800 font-semibold text-base hover:bg-[#5fd3d0] transition"
+                          className="w-full mt-2 py-2 rounded-full bg-teal-100 text-teal-700 font-semibold text-base hover:bg-teal-200 transition"
                           onClick={() => setShowQuantityDropdown(false)}
                         >
                           Áp dụng
@@ -526,54 +531,57 @@ export default function YachtDetail({ yacht }: { yacht: Yacht }) {
                     )}
                   </div>
                 </div>
+              </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+              {/* Thông tin khách hàng */}
+              <div className="space-y-6">
+                <div className="relative">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                    <svg className="w-5 h-5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                     Họ và tên <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
                     placeholder="Nhập họ và tên"
-                    className="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
+                    className="w-full rounded-xl border-2 border-gray-200 shadow-sm focus:border-teal-500 focus:ring-2 focus:ring-teal-200 px-4 py-3 text-lg"
                     value={modalName}
                     onChange={e => setModalName(e.target.value)}
                   />
                 </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                <div className="relative">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                    <svg className="w-5 h-5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 7M7 13l-1.35 2.7A2 2 0 007.48 19h9.04a2 2 0 001.83-1.3L17 13M9 21h6" /></svg>
                     Số điện thoại <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="tel"
                     placeholder="Nhập số điện thoại"
-                    className="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
+                    className="w-full rounded-xl border-2 border-gray-200 shadow-sm focus:border-teal-500 focus:ring-2 focus:ring-teal-200 px-4 py-3 text-lg"
                     value={modalPhone}
                     onChange={e => setModalPhone(e.target.value)}
                   />
                 </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                <div className="relative">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                    <svg className="w-5 h-5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 12H8m8 0a4 4 0 11-8 0 4 4 0 018 0zm2 4v1a2 2 0 01-2 2H6a2 2 0 01-2-2v-1a6 6 0 0112 0z" /></svg>
                     Địa chỉ email <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="email"
                     placeholder="Nhập email"
-                    className="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
+                    className="w-full rounded-xl border-2 border-gray-200 shadow-sm focus:border-teal-500 focus:ring-2 focus:ring-teal-200 px-4 py-3 text-lg"
                     value={modalEmail}
                     onChange={e => setModalEmail(e.target.value)}
                   />
                 </div>
-
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Yêu cầu của bạn
                   </label>
                   <textarea
                     rows={4}
                     placeholder="Nhập yêu cầu của bạn"
-                    className="w-full rounded-lg border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
+                    className="w-full rounded-xl border-2 border-gray-200 shadow-sm focus:border-teal-500 focus:ring-2 focus:ring-teal-200 px-4 py-3 text-lg"
                     value={modalNote}
                     onChange={e => setModalNote(e.target.value)}
                   />
@@ -582,22 +590,22 @@ export default function YachtDetail({ yacht }: { yacht: Yacht }) {
               </div>
             </div>
 
-            <div className="flex items-center justify-between p-6 border-t border-gray-200 bg-gray-50">
-              <div>
-                <div className="text-sm text-gray-500">Tổng tiền</div>
-                <div className="text-2xl font-bold text-gray-900">{totalPrice.toLocaleString()}đ</div>
+            <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-8 border-t border-gray-100 bg-gray-50">
+              <div className="flex-1 text-center md:text-left">
+                <div className="text-base text-gray-500">Tổng tiền</div>
+                <div className="text-3xl font-extrabold text-teal-600 mt-1">{totalPrice.toLocaleString()}đ</div>
               </div>
-              <div className="flex gap-4">
+              <div className="flex gap-4 w-full md:w-auto">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-6 py-3 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                  className="flex-1 md:flex-none px-8 py-4 bg-white border-2 border-teal-500 rounded-xl text-teal-600 font-bold text-lg hover:bg-teal-50 transition-colors shadow-sm"
                 >
                   Đăng ký tư vấn
                 </button>
                 <button
                   type="button"
-                  className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
+                  className="flex-1 md:flex-none px-8 py-4 bg-teal-600 text-white rounded-xl font-bold text-lg hover:bg-teal-700 transition-colors shadow-lg"
                   onClick={handleConfirmBooking}
                 >
                   Đặt ngay
