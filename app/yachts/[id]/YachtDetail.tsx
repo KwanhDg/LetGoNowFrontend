@@ -129,15 +129,13 @@ export default function YachtDetail({ yacht }: { yacht: Yacht }) {
             {(yacht.images || []).slice(0, 5).map((image: ImageType, index: number) => (
               <div
                 key={index}
-                className={`relative h-[300px] ${
-                  index === 0 ? 'md:col-span-2 md:row-span-2 md:h-[600px]' : 'h-[300px]'
-                } overflow-hidden rounded-none md:first:rounded-bl-lg last:rounded-tr-lg`}
+                className={`relative w-full ${index === 0 ? 'md:col-span-2 md:row-span-2 h-[400px] md:h-[600px]' : 'h-[300px]'} overflow-hidden rounded-none md:first:rounded-bl-lg last:rounded-tr-lg flex items-center justify-center`}
               >
                 <Image
                   src={image.url}
                   alt={image.alt || yacht.name}
                   fill
-                  className="object-cover hover:scale-105 transition duration-300"
+                  className="object-cover object-center hover:scale-105 transition duration-300"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </div>
