@@ -27,12 +27,13 @@ export async function generateMetadata({
   };
 }
 
-export default async function EditYachtPage({
-  params,
-}: {
+type Props = {
   params: { id: string };
-}) {
-  const yacht = await getYacht(params.id);
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export default async function EditYachtPage(props: Props) {
+  const yacht = await getYacht(props.params.id);
 
   return (
     <div>
