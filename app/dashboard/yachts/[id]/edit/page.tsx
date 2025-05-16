@@ -16,7 +16,13 @@ async function getYacht(id: string) {
   return data;
 }
 
-export default async function EditYachtPage({ params }: { params: { id: string } }) {
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default async function EditYachtPage({ params }: PageProps) {
   const yacht = await getYacht(params.id);
 
   return (
