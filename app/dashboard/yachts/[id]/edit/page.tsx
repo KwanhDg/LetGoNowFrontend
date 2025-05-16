@@ -16,12 +16,11 @@ async function getYacht(id: string) {
   return data;
 }
 
-type Props = {
-  params: { id: string }
-  searchParams: { [key: string]: string | string[] | undefined }
-}
-
-export default async function EditYachtPage({ params }: Props) {
+export default async function EditYachtPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const yacht = await getYacht(params.id);
 
   return (
