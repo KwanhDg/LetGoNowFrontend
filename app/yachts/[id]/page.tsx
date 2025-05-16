@@ -1,4 +1,3 @@
-import { supabase } from '../../../lib/supabase';
 import { notFound } from 'next/navigation';
 import YachtDetail from './YachtDetail';
 import { Metadata } from 'next';
@@ -12,25 +11,15 @@ async function getYachtData(id: string, retries = 3): Promise<Yacht> {
     try {
       console.log(`Attempt ${i + 1} to fetch yacht data for id: ${id}`);
       
-      // First get the yacht data with all related data
-      const { data: yacht, error: yachtError } = await supabase
-        .from('yachts')
-        .select(`
-          *,
-          rooms (
-            id,
-            name,
-            area,
-            max_guests,
-            price,
-            images
-          )
-        `)
-        .eq('id', id)
-        .single();
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/yachts/${id}`, {
+        next: { revalidate: 60 },
+        headers: {
+          'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=30',
+        },
+      });
 
-      if (yachtError) {
-        console.error(`Error fetching yacht (attempt ${i + 1}):`, yachtError);
+      if (!response.ok) {
+        console.error(`Error fetching yacht (attempt ${i + 1}):`, response.statusText);
         if (i === retries - 1) {
           console.error('All retry attempts failed');
           notFound();
@@ -39,6 +28,8 @@ async function getYachtData(id: string, retries = 3): Promise<Yacht> {
         await new Promise(resolve => setTimeout(resolve, 1000));
         continue;
       }
+
+      const yacht = await response.json();
 
       if (!yacht) {
         console.error(`No yacht found with id: ${id} (attempt ${i + 1})`);
