@@ -16,13 +16,12 @@ async function getYacht(id: string) {
   return data;
 }
 
-interface PageProps {
-  params: {
-    id: string;
-  };
+type Props = {
+  params: { id: string }
+  searchParams: { [key: string]: string | string[] | undefined }
 }
 
-export default async function EditYachtPage({ params }: PageProps) {
+export default async function EditYachtPage({ params }: Props) {
   const yacht = await getYacht(params.id);
 
   return (
