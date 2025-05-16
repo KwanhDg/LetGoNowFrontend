@@ -1,32 +1,43 @@
-import { supabase } from '../../lib/supabase';
 import Link from 'next/link';
 import Image from 'next/image';
 
 async function getYachts(searchQuery?: string, priceRange?: string) {
-  let query = supabase
-    .from('yachts')
-    .select('*')
-    .order('created_at', { ascending: false });
+  try {
+    let url = `${process.env.NEXT_PUBLIC_API_URL}/yachts`;
+    const params = new URLSearchParams();
 
-  // Apply search filters
-  if (searchQuery) {
-    query = query.ilike('name', `%${searchQuery}%`);
-  }
+    if (searchQuery) {
+      params.append('search', searchQuery);
+    }
 
-  if (priceRange && priceRange !== 'Tất cả mức giá') {
-    const [min, max] = priceRange.split('-').map(Number);
-    if (min) query = query.gte('price', min * 1000000);
-    if (max) query = query.lte('price', max * 1000000);
-  }
+    if (priceRange && priceRange !== 'Tất cả mức giá') {
+      const [min, max] = priceRange.split('-').map(Number);
+      if (min) params.append('minPrice', (min * 1000000).toString());
+      if (max) params.append('maxPrice', (max * 1000000).toString());
+    }
 
-  const { data: yachts, error } = await query;
+    if (params.toString()) {
+      url += `?${params.toString()}`;
+    }
 
-  if (error) {
+    const response = await fetch(url, {
+      next: { revalidate: 60 },
+      headers: {
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=30',
+      },
+    });
+
+    if (!response.ok) {
+      console.error('Error fetching yachts:', response.statusText);
+      return [];
+    }
+
+    const yachts = await response.json();
+    return yachts;
+  } catch (error) {
     console.error('Error fetching yachts:', error);
     return [];
   }
-
-  return yachts;
 }
 
 export default async function YachtsPage({

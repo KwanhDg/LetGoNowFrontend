@@ -1,34 +1,26 @@
-import { getYachts, type Yacht } from '../lib/yachts';
-import { supabase } from '../lib/supabase';
 import { redirect } from 'next/navigation';
-import * as bookingApi from '../lib/bookings';
+import type { Yacht } from './yachts/[id]/types';
 
-interface StrapiResponse {
-  data: Yacht[];
-}
+async function getYachts() {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/yachts`, {
+      next: { revalidate: 60 },
+      headers: {
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=30',
+      },
+    });
 
-async function handleLogin() {
-  "use server";
-  const { error } = await supabase.auth.signInWithPassword({
-    email: 'customer1@example.com',
-    password: 'password123',
-  });
-  if (error) throw new Error(error.message);
-}
+    if (!response.ok) {
+      console.error('Error fetching yachts:', response.statusText);
+      return { data: [] };
+    }
 
-async function createBooking(formData: FormData) {
-  "use server";
-  const serviceType = formData.get('serviceType') as string;
-  const serviceId = formData.get('serviceId') as string;
-  // Lấy các trường cần thiết từ formData
-  const bookingData = {
-    service_type: serviceType,
-    yacht_id: serviceType === 'yacht' ? parseInt(serviceId) : undefined,
-    booking_date: new Date().toISOString(),
-    // Thêm các trường khác nếu cần
-  };
-  const result = await bookingApi.createBooking(bookingData);
-  if (result.error) throw new Error(result.error);
+    const yachts = await response.json();
+    return { data: yachts };
+  } catch (error) {
+    console.error('Error fetching yachts:', error);
+    return { data: [] };
+  }
 }
 
 async function handleSearch(formData: FormData) {
@@ -44,7 +36,7 @@ async function handleSearch(formData: FormData) {
   if (priceRange && priceRange !== 'Tất cả mức giá') searchParams.set('price', priceRange);
 
   // Redirect to search results page
-  redirect(`/yachts/search?${searchParams.toString()}`);
+  redirect(`/yachts?${searchParams.toString()}`);
 }
 
 export default async function Home() {
