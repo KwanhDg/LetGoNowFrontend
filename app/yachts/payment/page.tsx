@@ -123,8 +123,17 @@ export default function YachtPaymentPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await handleInsertBooking();
-    router.push('/yachts/confirmation');
+    try {
+      const ok = await handleInsertBooking();
+      if (ok) {
+        router.push('/yachts/confirmation');
+      } else {
+        alert('Có lỗi xảy ra khi xử lý đặt chỗ. Vui lòng thử lại sau.');
+      }
+    } catch (error) {
+      console.error('Error submitting booking:', error);
+      alert('Có lỗi xảy ra khi xử lý đặt chỗ. Vui lòng thử lại sau.');
+    }
   };
 
   if (!bookingData) {
@@ -241,7 +250,7 @@ export default function YachtPaymentPage() {
                 <div className="font-semibold text-yellow-800 mb-2">Lưu ý quan trọng</div>
                 <ul className="list-disc list-inside text-sm text-yellow-700 space-y-1">
                   <li>Vui lòng chuyển khoản đúng số tiền {formatPrice(bookingData.total_price ?? bookingData.total)} VND</li>
-                  <li>Nội dung chuyển khoản: YACHT {bookingData.yacht.toUpperCase().replace(/\s/g, '')}</li>
+                  <li>Nội dung chuyển khoản: YACHT {bookingData.yacht ? bookingData.yacht.toUpperCase().replace(/\s/g, '') : 'BOOKING'}</li>
                   <li>Vé sẽ được gửi qua email sau khi xác nhận thanh toán</li>
                 </ul>
               </div>
