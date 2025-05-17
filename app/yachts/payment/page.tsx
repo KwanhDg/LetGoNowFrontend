@@ -245,8 +245,13 @@ export default function YachtPaymentPage() {
                   <li>Vé sẽ được gửi qua email sau khi xác nhận thanh toán</li>
                 </ul>
               </div>
-              <button type="button" className="w-full mt-4 px-8 py-3 rounded-full bg-[#7ee3e0] text-gray-800 font-bold text-lg hover:bg-[#5fd3d0] transition" onClick={async () => { const ok = await handleInsertBooking(); if (ok) router.push('/yachts/confirmation'); }} disabled={isSubmitting}>
-                Tôi đã chuyển khoản
+              <button 
+                type="button" 
+                className="w-full mt-4 px-8 py-3 rounded-full bg-[#7ee3e0] text-gray-800 font-bold text-lg hover:bg-[#5fd3d0] transition" 
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Đang xử lý...' : 'Tôi đã chuyển khoản'}
               </button>
             </div>
           )}
@@ -259,8 +264,13 @@ export default function YachtPaymentPage() {
               <div className="bg-gray-100 p-4 rounded-xl inline-block">
                 <div className="w-48 h-48 bg-white flex items-center justify-center text-gray-400">QR CODE</div>
               </div>
-              <button type="button" className="w-full mt-8 px-8 py-3 rounded-full bg-[#7ee3e0] text-gray-800 font-bold text-lg hover:bg-[#5fd3d0] transition" onClick={async () => { const ok = await handleInsertBooking(); if (ok) router.push('/yachts/confirmation'); }} disabled={isSubmitting}>
-                Tôi đã thanh toán
+              <button 
+                type="button" 
+                className="w-full mt-8 px-8 py-3 rounded-full bg-[#7ee3e0] text-gray-800 font-bold text-lg hover:bg-[#5fd3d0] transition" 
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Đang xử lý...' : 'Tôi đã thanh toán'}
               </button>
             </div>
           )}

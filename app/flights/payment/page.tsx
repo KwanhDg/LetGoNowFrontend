@@ -41,64 +41,6 @@ function formatPrice(price: number) {
   return price.toLocaleString('vi-VN');
 }
 
-// Mock data - in real app this would come from your state management
-const mockBooking = {
-  flight: {
-    airline: { iata: 'HVN', name: 'Vietnam Airlines' },
-    flightNumber: 'VN123',
-    departure: { iata: 'HAN', scheduled: '2024-03-20T10:00:00' },
-    arrival: { iata: 'SGN', scheduled: '2024-03-20T12:00:00' },
-  },
-  passengers: {
-    adults: 2,
-    children: 1,
-    infants: 0
-  },
-  seats: ['A1', 'A2', 'B1'],
-  baggage: '20kg',
-  meal: 'chicken',
-  totalPrice: 2150000,
-  total_price: 2150000,
-  number_of_guests: 3,
-};
-
-const handleInsertBooking = async () => {
-  // Lấy dữ liệu booking từ localStorage
-  const storedData = localStorage.getItem('flightBookingData');
-  if (!storedData) return false;
-  let bookingData = JSON.parse(storedData);
-  // Loại bỏ các trường không hợp lệ nếu có (phòng trường hợp dữ liệu localStorage bị lẫn)
-  delete bookingData.yacht_id;
-  delete bookingData.yacht;
-  delete bookingData.room;
-  delete bookingData.guests;
-  delete bookingData.date;
-  // Chuẩn hóa dữ liệu gửi lên backend
-  const payload = {
-    service_type: 'flight',
-    booking_date: new Date().toISOString(),
-    number_of_guests: Number(bookingData.number_of_guests),
-    total_price: Number(bookingData.total_price),
-    flight_number: bookingData.flight.flightNumber,
-    flight_from: bookingData.flight.departure.iata,
-    flight_to: bookingData.flight.arrival.iata,
-    departure_date: new Date(bookingData.flight.departure.scheduled).toISOString(),
-    airline: bookingData.flight.airline.name,
-    customer_name: bookingData.contact.name,
-    customer_email: bookingData.contact.email,
-    customer_phone: bookingData.contact.phone,
-    special_requests: '',
-    status: 'confirmed',
-  };
-  // Gửi booking
-  const result = await createBooking(payload);
-  if (result.error) {
-    alert('Đặt vé thất bại: ' + result.error);
-    return false;
-  }
-  return true;
-};
-
 export default function PaymentPage() {
   const router = useRouter();
   const [selectedMethod, setSelectedMethod] = useState<string>('');
@@ -108,6 +50,7 @@ export default function PaymentPage() {
   const [cvv, setCvv] = useState('');
   const [selectedBank, setSelectedBank] = useState('');
   const [bookingData, setBookingData] = useState<any>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     // Lấy dữ liệu booking từ localStorage
@@ -136,10 +79,55 @@ export default function PaymentPage() {
     }
   };
 
+  const isCardValid = () => cardNumber && cardHolder && expiryDate && cvv;
+
+  const handleInsertBooking = async () => {
+    if (isSubmitting || !bookingData) return false;
+    setIsSubmitting(true);
+
+    try {
+      // Chuẩn hóa dữ liệu gửi lên backend
+      const payload = {
+        service_type: 'flight',
+        booking_date: new Date().toISOString(),
+        number_of_guests: Number(bookingData.number_of_guests),
+        total_price: Number(bookingData.total_price),
+        flight_number: bookingData.flight.flightNumber,
+        flight_from: bookingData.flight.departure.iata,
+        flight_to: bookingData.flight.arrival.iata,
+        departure_date: new Date(bookingData.flight.departure.scheduled).toISOString(),
+        airline: bookingData.flight.airline.name,
+        customer_name: bookingData.contact.name,
+        customer_email: bookingData.contact.email,
+        customer_phone: bookingData.contact.phone,
+        special_requests: '',
+        status: 'confirmed',
+      };
+
+      const result = await createBooking(payload);
+      if (result.error) {
+        alert('Đặt vé thất bại: ' + result.error);
+        return false;
+      }
+
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('flightBookingData');
+      }
+      return true;
+    } catch (error) {
+      console.error('Booking error:', error);
+      return false;
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Sau khi thanh toán thành công, chuyển sang trang xác nhận
-    router.push('/flights/confirmation');
+    const success = await handleInsertBooking();
+    if (success) {
+      router.push('/flights/confirmation');
+    }
   };
 
   if (!bookingData) {
@@ -200,7 +188,7 @@ export default function PaymentPage() {
           </div>
           <div className="border-t pt-4 mt-4">
             <div className="font-semibold mb-2">Ghế đã chọn</div>
-            <div className="text-gray-700 mb-1">{bookingData.selected_seats.join(', ')}</div>
+            <div className="text-gray-700 mb-1">{bookingData.selected_seats?.join(', ')}</div>
           </div>
           <div className="border-t pt-4 mt-4">
             <div className="font-semibold mb-2">Dịch vụ bổ sung</div>
@@ -302,6 +290,7 @@ export default function PaymentPage() {
               <button
                 type="submit"
                 className="w-full mt-6 px-8 py-3 rounded-full bg-[#7ee3e0] text-gray-800 font-bold text-lg hover:bg-[#5fd3d0] transition"
+                disabled={!isCardValid() || isSubmitting}
               >
                 Thanh toán {formatPrice(bookingData.total_price)} VND
               </button>
@@ -326,11 +315,11 @@ export default function PaymentPage() {
                 <div className="font-semibold text-yellow-800 mb-2">Lưu ý quan trọng</div>
                 <ul className="list-disc list-inside text-sm text-yellow-700 space-y-1">
                   <li>Vui lòng chuyển khoản đúng số tiền {formatPrice(bookingData.total_price)} VND</li>
-                  <li>Nội dung chuyển khoản: LETGO {bookingData.flight.flightNumber}</li>
+                  <li>Nội dung chuyển khoản: FLIGHT {bookingData.flight.flightNumber}</li>
                   <li>Vé sẽ được gửi qua email sau khi xác nhận thanh toán</li>
                 </ul>
               </div>
-              <button type="button" className="w-full mt-4 px-8 py-3 rounded-full bg-[#7ee3e0] text-gray-800 font-bold text-lg hover:bg-[#5fd3d0] transition" onClick={async () => { const success = await handleInsertBooking(); if (success) router.push('/flights/confirmation'); }}>
+              <button type="button" className="w-full mt-4 px-8 py-3 rounded-full bg-[#7ee3e0] text-gray-800 font-bold text-lg hover:bg-[#5fd3d0] transition" onClick={handleSubmit} disabled={isSubmitting}>
                 Tôi đã chuyển khoản
               </button>
             </div>
@@ -344,6 +333,9 @@ export default function PaymentPage() {
               <div className="bg-gray-100 p-4 rounded-xl inline-block">
                 <div className="w-48 h-48 bg-white"></div>
               </div>
+              <button type="button" className="w-full mt-8 px-8 py-3 rounded-full bg-[#7ee3e0] text-gray-800 font-bold text-lg hover:bg-[#5fd3d0] transition" onClick={handleSubmit} disabled={isSubmitting}>
+                Tôi đã thanh toán
+              </button>
             </div>
           )}
 
