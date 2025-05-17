@@ -1,5 +1,5 @@
 'use client';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createBooking } from '../../../lib/bookings';
 
@@ -44,6 +44,20 @@ export default function YachtPaymentPage() {
   const [cvv, setCvv] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isSubmittingRef = useRef(false);
+  const [bookingData, setBookingData] = useState<any>(null);
+
+  useEffect(() => {
+    // Lấy dữ liệu booking từ localStorage
+    if (typeof window !== 'undefined') {
+      const storedData = localStorage.getItem('yachtBookingData');
+      if (storedData) {
+        setBookingData(JSON.parse(storedData));
+      } else {
+        // Nếu không có dữ liệu, chuyển về trang tìm kiếm
+        router.push('/yachts');
+      }
+    }
+  }, [router]);
 
   const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\D/g, '');
@@ -60,15 +74,10 @@ export default function YachtPaymentPage() {
   const isCardValid = () => cardNumber && cardHolder && expiryDate && cvv;
 
   const handleInsertBooking = async () => {
-    if (isSubmitting || isSubmittingRef.current) return false;
+    if (isSubmitting || isSubmittingRef.current || !bookingData) return false;
     setIsSubmitting(true);
     isSubmittingRef.current = true;
-    // Lấy dữ liệu booking từ localStorage nếu có
-    let bookingData = mockBooking;
-    if (typeof window !== 'undefined') {
-      const storedData = localStorage.getItem('yachtBookingData');
-      if (storedData) bookingData = JSON.parse(storedData);
-    }
+
     // Đảm bảo có yacht_id
     if (!bookingData.yacht_id) {
       alert('Không tìm thấy mã du thuyền (yacht_id). Vui lòng quay lại chọn lại du thuyền!');
@@ -76,6 +85,7 @@ export default function YachtPaymentPage() {
       isSubmittingRef.current = false;
       return false;
     }
+
     // Xử lý booking_date an toàn
     let bookingDateIso = '';
     if (bookingData.date && !isNaN(new Date(bookingData.date).getTime())) {
@@ -83,6 +93,7 @@ export default function YachtPaymentPage() {
     } else {
       bookingDateIso = new Date().toISOString();
     }
+
     // Chuẩn hóa dữ liệu gửi lên backend
     const payload: any = {
       service_type: 'yacht',
@@ -96,6 +107,7 @@ export default function YachtPaymentPage() {
       special_requests: '',
       status: 'confirmed',
     };
+
     const result = await createBooking(payload);
     setIsSubmitting(false);
     isSubmittingRef.current = false;
@@ -114,6 +126,10 @@ export default function YachtPaymentPage() {
     await handleInsertBooking();
     router.push('/yachts/confirmation');
   };
+
+  if (!bookingData) {
+    return null;
+  }
 
   return (
     <div className="container mx-auto px-4 py-8 mt-20">
@@ -148,13 +164,13 @@ export default function YachtPaymentPage() {
         {/* Box thông tin đặt chỗ */}
         <div className="bg-white rounded-2xl shadow-md p-6 w-full md:w-1/3 mb-6 md:mb-0">
           <div className="font-bold text-lg mb-2">Thông tin đặt chỗ</div>
-          <div className="mb-2"><span className="text-gray-500">Du thuyền:</span> <span className="font-semibold">{mockBooking.yacht}</span></div>
-          <div className="mb-2"><span className="text-gray-500">Ngày đi:</span> <span className="font-semibold">{new Date(mockBooking.date).toLocaleDateString('vi-VN')}</span></div>
-          <div className="mb-2"><span className="text-gray-500">Số khách:</span> <span className="font-semibold">{mockBooking.guests}</span></div>
-          <div className="mb-2"><span className="text-gray-500">Loại phòng:</span> <span className="font-semibold">{mockBooking.room}</span></div>
+          <div className="mb-2"><span className="text-gray-500">Du thuyền:</span> <span className="font-semibold">{bookingData.yacht}</span></div>
+          <div className="mb-2"><span className="text-gray-500">Ngày đi:</span> <span className="font-semibold">{new Date(bookingData.date).toLocaleDateString('vi-VN')}</span></div>
+          <div className="mb-2"><span className="text-gray-500">Số khách:</span> <span className="font-semibold">{bookingData.guests}</span></div>
+          <div className="mb-2"><span className="text-gray-500">Loại phòng:</span> <span className="font-semibold">{bookingData.room}</span></div>
           <div className="border-t pt-4 mt-4 flex items-center justify-between">
             <div className="font-bold">Tổng tiền</div>
-            <div className="font-bold text-xl text-teal-700">{formatPrice(mockBooking.total)} VND</div>
+            <div className="font-bold text-xl text-teal-700">{formatPrice(bookingData.total_price ?? bookingData.total)} VND</div>
           </div>
         </div>
 
@@ -202,7 +218,7 @@ export default function YachtPaymentPage() {
                 </div>
               </div>
               <button type="button" className="w-full mt-6 px-8 py-3 rounded-full bg-[#7ee3e0] text-gray-800 font-bold text-lg hover:bg-[#5fd3d0] transition" onClick={async () => { const ok = await handleInsertBooking(); if (ok) router.push('/yachts/confirmation'); }} disabled={!isCardValid() || isSubmitting}>
-                Thanh toán {formatPrice(mockBooking.total)} VND
+                Thanh toán {formatPrice(bookingData.total_price ?? bookingData.total)} VND
               </button>
             </div>
           )}
@@ -224,8 +240,8 @@ export default function YachtPaymentPage() {
               <div className="p-4 bg-yellow-50 rounded-xl">
                 <div className="font-semibold text-yellow-800 mb-2">Lưu ý quan trọng</div>
                 <ul className="list-disc list-inside text-sm text-yellow-700 space-y-1">
-                  <li>Vui lòng chuyển khoản đúng số tiền {formatPrice(mockBooking.total)} VND</li>
-                  <li>Nội dung chuyển khoản: YACHT {mockBooking.yacht.toUpperCase().replace(/\s/g, '')}</li>
+                  <li>Vui lòng chuyển khoản đúng số tiền {formatPrice(bookingData.total_price ?? bookingData.total)} VND</li>
+                  <li>Nội dung chuyển khoản: YACHT {bookingData.yacht.toUpperCase().replace(/\s/g, '')}</li>
                   <li>Vé sẽ được gửi qua email sau khi xác nhận thanh toán</li>
                 </ul>
               </div>
