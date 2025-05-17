@@ -326,26 +326,8 @@ export default function PaymentPage() {
                   <li>Vé sẽ được gửi qua email sau khi xác nhận thanh toán</li>
                 </ul>
               </div>
-              <button 
-                type="button" 
-                className="w-full mt-4 px-8 py-3 rounded-full bg-[#7ee3e0] text-gray-800 font-bold text-lg hover:bg-[#5fd3d0] transition" 
-                onClick={async (e) => {
-                  e.preventDefault();
-                  try {
-                    const success = await handleInsertBooking();
-                    if (success) {
-                      router.push('/flights/confirmation');
-                    } else {
-                      alert('Có lỗi xảy ra khi xử lý đặt chỗ. Vui lòng thử lại sau.');
-                    }
-                  } catch (error) {
-                    console.error('Error submitting booking:', error);
-                    alert('Có lỗi xảy ra khi xử lý đặt chỗ. Vui lòng thử lại sau.');
-                  }
-                }}
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? 'Đang xử lý...' : 'Tôi đã chuyển khoản'}
+              <button type="button" className="w-full mt-4 px-8 py-3 rounded-full bg-[#7ee3e0] text-gray-800 font-bold text-lg hover:bg-[#5fd3d0] transition" onClick={handleSubmit} disabled={isSubmitting}>
+                Tôi đã chuyển khoản
               </button>
             </div>
           )}
