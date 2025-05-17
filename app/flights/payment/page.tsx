@@ -106,7 +106,14 @@ export default function PaymentPage() {
 
       const result = await createBooking(payload);
       if (result.error) {
+        console.error('Booking error:', result.error);
         alert('Đặt vé thất bại: ' + result.error);
+        return false;
+      }
+
+      if (!result.data) {
+        console.error('No data returned from booking API');
+        alert('Đặt vé thất bại: Không nhận được phản hồi từ hệ thống');
         return false;
       }
 
@@ -116,6 +123,7 @@ export default function PaymentPage() {
       return true;
     } catch (error) {
       console.error('Booking error:', error);
+      alert('Đặt vé thất bại: ' + (error instanceof Error ? error.message : 'Lỗi không xác định'));
       return false;
     } finally {
       setIsSubmitting(false);
@@ -129,7 +137,8 @@ export default function PaymentPage() {
       if (success) {
         router.push('/flights/confirmation');
       } else {
-        alert('Có lỗi xảy ra khi xử lý đặt chỗ. Vui lòng thử lại sau.');
+        // Không cần hiển thị alert ở đây vì đã hiển thị trong handleInsertBooking
+        return;
       }
     } catch (error) {
       console.error('Error submitting booking:', error);
