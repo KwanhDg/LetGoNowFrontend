@@ -124,9 +124,16 @@ export default function PaymentPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const success = await handleInsertBooking();
-    if (success) {
-      router.push('/flights/confirmation');
+    try {
+      const success = await handleInsertBooking();
+      if (success) {
+        router.push('/flights/confirmation');
+      } else {
+        alert('Có lỗi xảy ra khi xử lý đặt chỗ. Vui lòng thử lại sau.');
+      }
+    } catch (error) {
+      console.error('Error submitting booking:', error);
+      alert('Có lỗi xảy ra khi xử lý đặt chỗ. Vui lòng thử lại sau.');
     }
   };
 
