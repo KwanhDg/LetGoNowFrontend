@@ -29,9 +29,14 @@ async function handleSearch(formData: FormData) {
   const location = formData.get('location') as string;
   const priceRange = formData.get('priceRange') as string;
 
+  // Validate input
+  if (!searchQuery && !location && !priceRange) {
+    return;
+  }
+
   // Build search params
   const searchParams = new URLSearchParams();
-  if (searchQuery) searchParams.set('q', searchQuery);
+  if (searchQuery?.trim()) searchParams.set('q', searchQuery.trim());
   if (location && location !== 'Tất cả địa điểm') searchParams.set('location', location);
   if (priceRange && priceRange !== 'Tất cả mức giá') searchParams.set('price', priceRange);
 
@@ -65,6 +70,15 @@ export default async function Home() {
                 placeholder="Nhập tên du thuyền"
                 className="px-5 py-4 border border-gray-300 rounded-lg w-full md:w-1/2 focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
+              <select
+                name="location"
+                className="px-5 py-4 border border-gray-300 rounded-lg w-full md:w-1/3 focus:outline-none focus:ring-2 focus:ring-teal-500"
+              >
+                <option>Tất cả địa điểm</option>
+                <option>Vịnh Hạ Long</option>
+                <option>Vịnh Lan Hạ</option>
+                <option>Đảo Cát Bà</option>
+              </select>
               <select
                 name="priceRange"
                 className="px-5 py-4 border border-gray-300 rounded-lg w-full md:w-1/3 focus:outline-none focus:ring-2 focus:ring-teal-500"
