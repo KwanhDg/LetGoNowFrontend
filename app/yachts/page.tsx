@@ -1,14 +1,20 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { ReadonlyURLSearchParams } from 'next/navigation';
 
-async function getYachts(searchParams: URLSearchParams) {
+async function getYachts(searchParams: ReadonlyURLSearchParams) {
   try {
     let url = `${process.env.NEXT_PUBLIC_API_URL}/yachts`;
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams();
+
+    // Copy all search params to new URLSearchParams
+    searchParams.forEach((value, key) => {
+      params.append(key, value);
+    });
 
     if (params.toString()) {
       url += `?${params.toString()}`;
@@ -47,6 +53,23 @@ export default function YachtsPage() {
     facilities: [],
     shipType: []
   });
+
+  useEffect(() => {
+    const fetchYachts = async () => {
+      setIsLoading(true);
+      try {
+        const data = await getYachts(searchParams);
+        setYachts(data);
+      } catch (error) {
+        console.error('Error fetching yachts:', error);
+        setYachts([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchYachts();
+  }, [searchParams]);
 
   // Handle search form submission
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
